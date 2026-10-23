@@ -1,0 +1,122 @@
+@model StockWeb.Models.RemitoViewModel
+
+@{
+    ViewData["Title"] = "Nuevo Remito Multi-Artículo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>📦 Generar Remito con Múltiples Artículos</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Crear" method="post" id="formRemito">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <!-- Cabecera -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label font-weight-bold">Tipo de Operación</label>
+                        <select asp-for="TipoMovimiento" class="form-select">
+                            <option value="Ingreso">📥 INGRESO</option>
+                            <option value="Egreso">📤 EGRESO</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label font-weight-bold">Persona que Involucrada / Retira</label>
+                        <input asp-for="PersonaRetira" class="form-control" required />
+                    </div>
+                </div>
+
+                <hr />
+
+                <!-- Selector para agregar ítems -->
+                <h5>Agregar Productos al Detalle</h5>
+                <div class="row bg-light p-3 rounded mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Producto</label>
+                        <select id="selectProducto" class="form-select" asp-items="ViewBag.ProductosId">
+                            <option value="">-- Seleccionar --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Cantidad</label>
+                        <input type="number" id="inputCantidad" class="form-control" step="0.01" min="0.01" value="1" />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-success w-100" onclick="agregarFila()">➕ Agregar</button>
+                    </div>
+                </div>
+
+                <!-- Tabla donde se acumulan los ítems -->
+                <table class="table table-bordered align-middle" id="tablaDetalle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Producto</th>
+                            <th class="text-center" style="width: 150px;">Cantidad</th>
+                            <th class="text-center" style="width: 100px;">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Las filas dinámicas se agregan con JavaScript -->
+                    </tbody>
+                </table>
+
+                <div class="mb-3">
+                    <label asp-for="Observaciones" class="form-label">Observaciones</label>
+                    <textarea asp-for="Observaciones" class="form-control" rows="2"></textarea>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Remito Completo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let indexItem = 0;
+
+        function agregarFila() {
+            const selectProd = document.getElementById("selectProducto");
+            const inputCant = document.getElementById("inputCantidad");
+
+            const productoId = selectProd.value;
+            const productoTexto = selectProd.options[selectProd.selectedIndex].text;
+            const cantidad = inputCant.value;
+
+            if (!productoId || cantidad <= 0) {
+                alert("Seleccione un producto e ingrese una cantidad válida.");
+                return;
+            }
+
+            const tbody = document.querySelector("#tablaDetalle tbody");
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>
+                    ${productoTexto}
+                    <input type="hidden" name="Items[${indexItem}].ProductoId" value="${productoId}" />
+                </td>
+                <td class="text-center">
+                    ${cantidad}
+                    <input type="hidden" name="Items[${indexItem}].Cantidad" value="${cantidad}" />
+                </td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">🗑️ Quitar</button>
+                </td>
+            `;
+
+            tbody.appendChild(tr);
+            indexItem++;
+
+            // Resetea select y cantidad
+            selectProd.value = "";
+            inputCant.value = "1";
+        }
+    </script>
+}

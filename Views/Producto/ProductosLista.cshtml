@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Producto>
+
+@{
+    ViewData["Title"] = "Administración de Mercaderias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>🏷️ Listado de Mercaderias</h2>
+        <a asp-action="Crear" class="btn btn-success">➕ Agregar Mercaderias</a>
+    </div>
+
+    <div class="table-responsive shadow-sm">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Categoría</th>
+                    <th>Cantidad</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var producto in Model)
+                {
+                    <tr>
+                        <td>@producto.Id</td>
+                        <td>@producto.Nombre</td>
+                        <td>@producto.Descripcion</td>
+                        <td>@producto.Categoria.Nombre</td>
+                        <td>@producto.StockActual</td>
+                        <td class="text-center">
+                            <a asp-action="Editar" asp-route-id="@producto.Id" class="btn btn-warning btn-sm">✏️ Editar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

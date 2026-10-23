@@ -1,0 +1,53 @@
+@model Usuario
+
+@{
+    ViewData["Title"] = "Crear Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Crear usuario</h2>
+
+    <form asp-action="Crear" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="USUARIO" class="form-label">Usuario</label>
+            <input asp-for="USUARIO" class="form-control" />
+            <span asp-validation-for="USUARIO" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="EMAIL" class="form-label">Email</label>
+            <input asp-for="EMAIL" type="email" class="form-control" />
+            <span asp-validation-for="EMAIL" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ROL" class="form-label">Rol</label>
+            <select asp-for="ROL" class="form-select">
+                <option value="1">Administrador</option>
+                <option value="2">Operador</option>
+            </select>
+            <span asp-validation-for="ROL" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="USUARIO_ID" class="form-label">Identificador de usuario</label>
+            <input asp-for="USUARIO_ID" class="form-control" />
+            <span asp-validation-for="USUARIO_ID" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="PASSWORDHASH" class="form-label">Contraseña</label>
+            <input id="PASSWORDHASH" name="password" type="password" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="UsuariosLista" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

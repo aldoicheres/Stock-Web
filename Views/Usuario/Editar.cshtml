@@ -1,0 +1,51 @@
+@model Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Editar usuario</h2>
+
+    <form asp-controller="Usuario" asp-action="Editar" asp-route-id="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="USUARIO" class="form-label">Usuario</label>
+            <input asp-for="USUARIO" class="form-control" />
+            <span asp-validation-for="USUARIO" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="EMAIL" class="form-label">Email</label>
+            <input asp-for="EMAIL" type="email" class="form-control" />
+            <span asp-validation-for="EMAIL" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ROL" class="form-label">Rol</label>
+            <select asp-for="ROL" class="form-select">
+                <option value="1">Administrador</option>
+                <option value="2">Operador</option>
+            </select>
+            <span asp-validation-for="ROL" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="nuevaPassword" class="form-label">Nueva contraseña</label>
+            <input id="nuevaPassword" name="nuevaPassword" type="password" class="form-control" />
+            <div class="form-text">Déjalo vacío para conservar la contraseña actual.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-action="UsuariosLista" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Página Principal";
+     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Bienvenido Usuario:, @User.Identity?.Name!</h2>
+    <hr />
+
+    <div class="row mt-4">
+        <!-- OPCIÓN PÚBLICA / OPERADOR: Ver productos y registrar movimientos -->
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">📦 Productos</h5>
+                    <p class="card-text">Consulta y gestión del catálogo de artículos.</p>
+                    <a asp-controller="Producto" asp-action="ProductosLista" class="btn btn-primary w-100">Ir a Productos</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">🔄 Movimientos</h5>
+                    <p class="card-text">Registro de ingresos y egresos de stock.</p>
+                    <a asp-controller="Movimientos" asp-action="Crear" class="btn btn-primary w-100">Ir a Movimientos</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- OPCIÓN EXCLUSIVA PARA ADMINISTRADORES (Rol = 1 o "1") -->
+        @if (User.IsInRole("1") || User.IsInRole("Admin"))
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card border-warning shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-warning">🏷️ Categorías (Admin)</h5>
+                        <p class="card-text">Alta y edición de los rubros o categorías.</p>
+                        <a asp-controller="Categoria" asp-action="CategoriasLista" class="btn btn-warning w-100">Administrar Categorías</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card border-danger shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-danger">👥 Usuarios (Admin)</h5>
+                        <p class="card-text">Gestión de accesos y permisos del sistema.</p>
+                        <a asp-controller="Usuario" asp-action="UsuariosLista" class="btn btn-danger w-100">Gestionar Usuarios</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

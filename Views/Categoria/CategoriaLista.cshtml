@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Categoria>
+
+@{
+    ViewData["Title"] = "Administración de Categorías";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>📦  Listado de Categorías</h2>
+        <a asp-action="Crear" class="btn btn-success">➕ Agregar Categoria</a>
+    </div>
+
+    <div class="table-responsive shadow-sm">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Última Modificación</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var categoria in Model)
+                {
+                    <tr>
+                        <td>@categoria.Id</td>
+                        <td>@categoria.Nombre</td>
+                        <td>@categoria.Descripcion</td>
+                        <td>@categoria.UltimaModificacion</td>
+                        <td class="text-center">
+                            <a asp-action="Editar" asp-route-id="@categoria.Id" class="btn btn-warning btn-sm">✏️ Editar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

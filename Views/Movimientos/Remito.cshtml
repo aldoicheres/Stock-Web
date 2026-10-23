@@ -1,0 +1,22 @@
+<table class="table table-bordered my-3">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Producto / Mercadería</th>
+            <th class="text-center">Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Detalles)
+        {
+            <tr>
+                <td>@item.ProductosId</td>
+                <td>
+                    <strong>@item.Producto?.Nombre</strong><br />
+                    <small class="text-muted">@item.Producto?.Descripcion</small>
+                </td>
+                <td class="text-center fs-5 fw-bold">@item.Cantidad</td>
+            </tr>
+        }
+    </tbody>
+</table>
